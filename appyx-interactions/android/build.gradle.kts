@@ -18,6 +18,7 @@ android {
 dependencies {
     implementation(project(":appyx-interactions:common"))
     implementation(project(":samples:common"))
+    implementation(compose.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.ui.tooling)
 }

@@ -68,7 +68,7 @@ class AnimatedInputSource<NavTarget : Any, State>(
         onAnimationFinished: () -> Unit = {}
     ) {
         val velocity = animatable.velocity // snap will reset it to 0
-        coroutineScope.launch(Dispatchers.Main) {
+        coroutineScope.launch {
             animatable.snapTo(model.currentProgress)
             animatable.animateTo(
                 targetValue = target,
@@ -82,7 +82,7 @@ class AnimatedInputSource<NavTarget : Any, State>(
     }
 
     fun stopModel() {
-        coroutineScope.launch(Dispatchers.Main) {
+        coroutineScope.launch {
             animatable.snapTo(model.currentProgress)
         }
     }

@@ -1,7 +1,6 @@
 package com.bumble.appyx.interactions.core
 
 import DisableAnimations
-import androidx.annotation.FloatRange
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.ui.geometry.Offset
@@ -83,7 +82,7 @@ open class InteractionModel<NavTarget : Any, NavState : Any>(
     ) {
         when {
             isDebug -> debug.operation(operation)
-            DisableAnimations || disableAnimations -> instant.operation(operation)
+             disableAnimations -> instant.operation(operation) // DisableAnimations ||
             else -> animated.operation(operation, animationSpec)
         }
     }
@@ -105,8 +104,9 @@ open class InteractionModel<NavTarget : Any, NavState : Any>(
         settle(completionThreshold, revertGestureSpec, completeGestureSpec)
     }
 
+    // TODO: @FloatRange(from = 0.0, to = 1.0)
     private fun settle(
-        @FloatRange(from = 0.0, to = 1.0) completionThreshold: Float = 0.5f,
+        completionThreshold: Float = 0.5f,
         completeGestureSpec: AnimationSpec<Float> = DefaultAnimationSpec,
         revertGestureSpec: AnimationSpec<Float> = DefaultAnimationSpec,
     ) {

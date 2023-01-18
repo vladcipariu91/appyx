@@ -1,10 +1,11 @@
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.bumble.appyx.interactions.App
 
 
+@OptIn(ExperimentalMaterialApi::class)
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
-        App()
+        DesktopSpotlightExperiment()
     }
 }

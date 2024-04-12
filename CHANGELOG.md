@@ -2,7 +2,9 @@
 
 ## Pending changes
 
---
+- [#693](https://github.com/bumble-tech/appyx/pull/693) – **Updated**: Compose BOM version and kotlin version
+
+---
 
 ## 1.4.1-migrate-2.x
 

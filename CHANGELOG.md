@@ -2,7 +2,13 @@
 
 ## Pending changes
 
+---
+
+## 1.5.0
+
 - [#693](https://github.com/bumble-tech/appyx/pull/693) – **Updated**: Compose BOM version and kotlin version
+
+<div style="text-align: center"><small>15 Apr 2024</small></div>
 
 ---
 

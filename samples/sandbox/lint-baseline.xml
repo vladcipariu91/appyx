@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 7.4.0" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.0)" variant="all" version="7.4.0">
+<issues format="6" by="lint 8.3.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.2.2)" variant="all" version="8.3.0">
+
+    <issue
+        id="PermissionImpliesUnsupportedChromeOsHardware"
+        message="Permission exists without corresponding hardware `&lt;uses-feature android:name=&quot;android.hardware.camera&quot; required=&quot;false&quot;>` tag"
+        errorLine1="    &lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; />"
+        errorLine2="     ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="4"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableLongStateOf` instead of `mutableStateOf`"
+        errorLine1="        var lastToastClickTime by remember { mutableStateOf(0L) }"
+        errorLine2="                                             ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/bumble/appyx/sandbox/client/blocker/BlockerExampleNode.kt"
+            line="98"
+            column="46"/>
+    </issue>
+
+    <issue
+        id="AutoboxingStateCreation"
+        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
+        errorLine1="                    var counter by rememberSaveable { mutableStateOf(0) }"
+        errorLine2="                                                      ~~~~~~~~~~~~~~">
+        <location
+            file="src/main/kotlin/com/bumble/appyx/sandbox/client/child/ChildNode.kt"
+            line="93"
+            column="55"/>
+    </issue>
 
     <issue
         id="Overdraw"

@@ -6,7 +6,7 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
 import io.reactivex.Observer
 
-class NodeConnector<Input, Output>(
+class NodeConnector<Input, Output: Any>(
     override val input: Relay<Input> = PublishRelay.create(),
 ) : Connectable<Input, Output> {
 

@@ -1,3 +1,4 @@
+
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.gradle.internal.lint.AndroidLintTask
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
@@ -16,7 +17,7 @@ class LintPlugin : Plugin<Project> {
     }
 
     private fun collectLintSarif(target: Project) {
-        target.extensions.configure<CommonExtension<*, *, *, *>>("android") {
+        target.extensions.configure<CommonExtension<*, *, *, *, *>>("android") {
             lint {
                 sarifReport = true
                 baseline = target.file("lint-baseline.xml")

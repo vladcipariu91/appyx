@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.config.JvmTarget
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -19,6 +21,14 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JvmTarget.JVM_11.toString()
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()

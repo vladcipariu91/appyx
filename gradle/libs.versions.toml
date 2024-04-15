@@ -1,22 +1,22 @@
 # keep sorted please, use Edit -> Sort Lines
 
 [versions]
-androidCompileSdk = "33"
+androidCompileSdk = "34"
 androidMinSdk = "21"
-androidTargetSdk = "32"
+androidTargetSdk = "34"
 accompanist = "0.28.0"
 androidx-lifecycle = "2.6.1"
 androidx-navigation-compose = "2.5.1"
 coil = "2.2.1"
-composeBom = "2023.05.01"
-composeCompiler = "1.4.4"
+composeBom = "2024.04.00"
+composeCompiler = "1.5.11"
 ribs = "0.39.0"
 mvicore = "1.2.6"
 coroutines = "1.6.4"
-kotlin = "1.8.10"
+kotlin = "1.9.23"
 junit5 = "5.8.2"
 detekt = "1.22.0"
-dependencyAnalysis = "1.13.1"
+dependencyAnalysis = "1.31.0"
 
 [libraries]
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
@@ -74,7 +74,7 @@ junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref
 
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-plugin-android = "com.android.tools.build:gradle:7.4.2"
+plugin-android = "com.android.tools.build:gradle:8.2.2"
 
 detekt-compose = "io.nlopez.compose.rules:detekt:0.1.5"
 toolargetool = "com.gu.android:toolargetool:0.3.0"

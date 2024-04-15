@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.config.JvmTarget
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -20,6 +22,13 @@ android {
         unitTests.all {
             it.useJUnitPlatform()
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JvmTarget.JVM_11.toString()
     }
 }
 

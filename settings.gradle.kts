@@ -14,8 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-enableFeaturePreview("VERSION_CATALOGS")
-
 include(
     ":libraries:core",
     ":libraries:customisations",

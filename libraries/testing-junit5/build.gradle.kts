@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.config.JvmTarget
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -26,6 +28,13 @@ android {
         resources {
             excludes += setOf("META-INF/LICENSE.md", "META-INF/LICENSE-notice.md")
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JvmTarget.JVM_11.toString()
     }
 }
 

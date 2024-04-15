@@ -32,11 +32,36 @@ dependencyAnalysis {
                     // Needed for compose '@Preview'. The annotation is actually within
                     // androidx.compose.ui:ui-tooling-preview, hence the need to exclude.
                     "androidx.compose.ui:ui-tooling",
+                    "androidx.test.ext:junit",
 
                     // This is used to add the testing activity to the debug manifest
                     // However since not code is referenced, it is raised as unused.
-                    ":libraries:testing-ui-activity"
+                    ":libraries:testing-ui-activity",
+                    ":libraries:testing-ui"
                 )
+            }
+            onRuntimeOnly {
+                exclude("org.jetbrains.kotlinx:kotlinx-coroutines-android")
+            }
+        }
+        project(":libraries:interop-ribs") {
+            onAny {
+                severity("ignore")
+            }
+        }
+        project(":samples:app") {
+            onAny {
+                severity("ignore")
+            }
+        }
+        project(":samples:navigation-compose") {
+            onAny {
+                severity("ignore")
+            }
+        }
+        project(":samples:sandbox") {
+            onAny {
+                severity("ignore")
             }
         }
         project(":libraries:testing-junit4") {

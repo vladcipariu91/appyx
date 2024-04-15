@@ -16,7 +16,7 @@ coroutines = "1.6.4"
 kotlin = "1.9.23"
 junit5 = "5.8.2"
 detekt = "1.22.0"
-dependencyAnalysis = "1.13.1"
+dependencyAnalysis = "1.31.0"
 
 [libraries]
 androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
@@ -74,7 +74,7 @@ junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version.ref
 
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-plugin-android = "com.android.tools.build:gradle:7.4.2"
+plugin-android = "com.android.tools.build:gradle:8.2.2"
 
 detekt-compose = "io.nlopez.compose.rules:detekt:0.1.5"
 toolargetool = "com.gu.android:toolargetool:0.3.0"

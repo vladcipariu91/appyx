@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bumble.appyx.R
+import com.bumble.appyx.samples.common.R
 import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.node.Node
 

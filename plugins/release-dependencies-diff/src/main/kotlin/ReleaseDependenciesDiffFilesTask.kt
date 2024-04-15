@@ -1,10 +1,10 @@
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
-import org.gradle.kotlin.dsl.support.appendReproducibleNewLine
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -104,6 +104,6 @@ abstract class ReleaseDependenciesDiffFilesTask : DefaultTask() {
             appendLine(projectName)
             appendLine("=========================================")
             resultLines.onEach(::appendLine)
-            appendReproducibleNewLine()
+            appendLine()
         }
 }

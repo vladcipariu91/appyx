@@ -1,3 +1,4 @@
+
 import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.diagnostics.DependencyReportTask
@@ -13,7 +14,8 @@ abstract class ReleaseDependenciesCreateFilesTask : DependencyReportTask() {
     )
     var directoryName: String? = null
 
-    override fun generate(project: Project) {
+
+    override fun calculateReportModelFor(project: Project): DependencyReportModel {
         val isJavaLibrary = project.plugins.hasPlugin("java")
 
         val isAndroidLibrary =
@@ -24,11 +26,10 @@ abstract class ReleaseDependenciesCreateFilesTask : DependencyReportTask() {
         // don't have any code or build.gradle files.
         if (isAndroidLibrary) {
             setConfiguration("releaseRuntimeClasspath")
-            super.generate(project)
         } else if (isJavaLibrary) {
             setConfiguration("runtimeClasspath")
-            super.generate(project)
         }
+        return super.calculateReportModelFor(project)
     }
 
     override fun getOutputFile(): File? {

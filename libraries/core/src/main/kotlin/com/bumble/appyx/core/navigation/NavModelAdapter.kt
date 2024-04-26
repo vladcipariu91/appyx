@@ -9,6 +9,7 @@ interface NavModelAdapter<NavTarget, State> {
     val screenState: StateFlow<ScreenState<NavTarget, out State>>
 
     data class ScreenState<NavTarget, State>(
+        val targetStateVisible: NavElements<NavTarget, out State> = emptyList(),
         val onScreen: NavElements<NavTarget, out State> = emptyList(),
         val offScreen: NavElements<NavTarget, out State> = emptyList(),
     )

@@ -39,6 +39,7 @@ import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.MviCore
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.MviCoreLeafExample
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.NavModelExamples
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.Picker
+import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.SharedElementFaderExample
 import com.bumble.appyx.sandbox.client.customisations.CustomisationsNode
 import com.bumble.appyx.sandbox.client.explicitnavigation.ExplicitNavigationExampleActivity
 import com.bumble.appyx.sandbox.client.integrationpoint.IntegrationPointExampleNode
@@ -47,6 +48,7 @@ import com.bumble.appyx.sandbox.client.list.LazyListContainerNode
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleBuilder
 import com.bumble.appyx.sandbox.client.mvicoreexample.leaf.MviCoreLeafBuilder
 import com.bumble.appyx.sandbox.client.navmodels.NavModelExamplesNode
+import com.bumble.appyx.sandbox.client.sharedelement.SharedElementFaderNode
 import com.bumble.appyx.utils.customisations.NodeCustomisation
 import kotlinx.parcelize.Parcelize
 
@@ -73,6 +75,9 @@ class ContainerNode internal constructor(
         object LazyExamples : NavTarget()
 
         @Parcelize
+        object SharedElementFaderExample : NavTarget()
+
+        @Parcelize
         object IntegrationPointExample : NavTarget()
 
         @Parcelize
@@ -96,6 +101,7 @@ class ContainerNode internal constructor(
         when (navTarget) {
             is Picker -> node(buildContext) { modifier -> ExamplesList(modifier) }
             is NavModelExamples -> NavModelExamplesNode(buildContext)
+            is SharedElementFaderExample -> SharedElementFaderNode(buildContext)
             is LazyExamples -> LazyListContainerNode(buildContext)
             is IntegrationPointExample -> IntegrationPointExampleNode(buildContext)
             is BlockerExample -> BlockerExampleNode(buildContext)
@@ -137,6 +143,7 @@ class ContainerNode internal constructor(
                 label?.let {
                     Text(it, textAlign = TextAlign.Center)
                 }
+                TextButton("Shared Element Fader") { backStack.push(SharedElementFaderExample) }
                 TextButton("NavModel Examples") { backStack.push(NavModelExamples) }
                 TextButton("Customisations Example") { backStack.push(Customisations) }
                 TextButton("Explicit navigation example") {

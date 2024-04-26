@@ -3,6 +3,7 @@ package com.bumble.appyx.core.composable
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -76,7 +77,7 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
             }
         }
     } else {
-        SharedTransitionLayout(modifier = modifier
+        Box(modifier = modifier
             .onSizeChanged {
                 transitionBounds = it
             }

@@ -90,7 +90,7 @@ class SharedElementWithMovableContentExampleNode(
 }
 
 @Composable
-fun ProfileImageWithCounterMovableContent(pageId: Int) {
+fun ProfileImageWithCounterMovableContent(pageId: Int, modifier: Modifier = Modifier) {
     localMovableContentWithTargetVisibility(key = pageId) {
         var counter by remember(pageId) { mutableIntStateOf(Random.nextInt(0, 100)) }
 
@@ -100,7 +100,7 @@ fun ProfileImageWithCounterMovableContent(pageId: Int) {
                 counter++
             }
         }
-        Box(modifier = Modifier) {
+        Box(modifier = modifier) {
             ProfileImage(
                 allProfiles[pageId].drawableRes, modifier = Modifier
             )

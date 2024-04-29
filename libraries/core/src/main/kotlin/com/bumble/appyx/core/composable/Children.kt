@@ -65,6 +65,7 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
             }
         ) {
             CompositionLocalProvider(
+                /** LocalSharedElementScope will be consumed by children UI to apply shareElement modifier */
                 LocalSharedElementScope provides this
             ) {
                 block(
@@ -83,6 +84,8 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
             }
         ) {
             CompositionLocalProvider(
+                /** If sharedElement is not supported for this Node - provide null otherwise children
+                 * can consume ascendant's  LocalSharedElementScope */
                 LocalSharedElementScope provides null
             ) {
                 block(
@@ -190,7 +193,7 @@ class ChildrenTransitionScope<T : Any, S>(
                 key(navElement.key.id) {
                     CompositionLocalProvider(
                         LocalNodeTargetVisibility provides
-                                children.targetStateVisible.contains(navElement)
+                                children.onScreenWithVisibleTargetState.contains(navElement)
                     ) {
                         Child(
                             navElement,

@@ -123,9 +123,16 @@ open class Node @VisibleForTesting internal constructor(
             LocalNode provides this,
             LocalLifecycleOwner provides this,
         ) {
-            HandleBackPress()
-            View(modifier)
+            DerivedSetup {
+                HandleBackPress()
+                View(modifier)
+            }
         }
+    }
+
+    @Composable
+    protected open fun DerivedSetup(innerContent: @Composable () -> Unit) {
+        innerContent()
     }
 
     @Composable

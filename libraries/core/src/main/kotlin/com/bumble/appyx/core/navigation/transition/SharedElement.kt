@@ -3,6 +3,7 @@ package com.bumble.appyx.core.navigation.transition
 import androidx.compose.animation.BoundsTransform
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.SharedTransitionScope.PlaceHolderSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
@@ -19,7 +20,7 @@ import com.bumble.appyx.core.node.LocalSharedElementScope
 fun Modifier.sharedElement(
     key: Any,
     boundsTransform: BoundsTransform = DefaultBoundsTransform,
-    placeHolderSize: SharedTransitionScope.PlaceHolderSize = SharedTransitionScope.PlaceHolderSize.contentSize,
+    placeHolderSize: PlaceHolderSize = PlaceHolderSize.contentSize,
     renderInOverlayDuringTransition: Boolean = true,
     zIndexInOverlay: Float = 0f,
     clipInOverlayDuringTransition: SharedTransitionScope.OverlayClip = ParentClip

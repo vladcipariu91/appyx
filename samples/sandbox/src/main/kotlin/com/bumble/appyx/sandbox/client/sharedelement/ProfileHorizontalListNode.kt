@@ -22,7 +22,6 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.navigation.transition.sharedElement
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.samples.common.profile.Profile
-import com.bumble.appyx.samples.common.profile.ProfileImage
 
 class ProfileHorizontalListNode(
     private val selectedId: Int,
@@ -41,28 +40,30 @@ class ProfileHorizontalListNode(
             horizontalArrangement = Arrangement.spacedBy(32.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            repeat(10) { pageId ->
-                item(key = pageId) {
+            repeat(10) { profileId ->
+                item(key = profileId) {
                     Box(
                         modifier = Modifier
                             .requiredSize(200.dp)
                             .clickable {
-                                onProfileClick(pageId)
+                                onProfileClick(profileId)
                             }
                     ) {
-                        val profile = Profile.allProfiles[pageId]
-                        ProfileImage(
-                            profile.drawableRes, modifier = Modifier
+                        val profile = Profile.allProfiles[profileId]
+                        Box(
+                            modifier = Modifier
                                 .fillMaxSize()
-                                .sharedElement(key = "$pageId image")
-                        )
+                                .sharedElement(key = "$profileId image")
+                        ) {
+                            ProfileImageWithCounterMovableContent(profileId)
+                        }
                         Text(
                             text = "${profile.name}, ${profile.age}",
                             color = Color.White,
                             fontSize = 16.sp,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .sharedElement(key = "$pageId text")
+                                .sharedElement(key = "$profileId text")
                                 .align(Alignment.BottomStart)
                                 .padding(8.dp)
                         )

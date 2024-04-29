@@ -3,29 +3,41 @@ package com.bumble.appyx.sandbox.client.sharedelement
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.bumble.appyx.core.composable.Children
 import com.bumble.appyx.core.modality.BuildContext
+import com.bumble.appyx.core.navigation.transition.localMovableContentWithTargetVisibility
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.core.node.ParentNode
 import com.bumble.appyx.navmodel.backstack.BackStack
 import com.bumble.appyx.navmodel.backstack.operation.push
-import com.bumble.appyx.navmodel.backstack.operation.replace
 import com.bumble.appyx.navmodel.backstack.transitionhandler.rememberBackstackFader
+import com.bumble.appyx.samples.common.profile.Profile.Companion.allProfiles
+import com.bumble.appyx.samples.common.profile.ProfileImage
+import kotlinx.coroutines.delay
 import kotlinx.parcelize.Parcelize
+import kotlin.random.Random
 
-class SharedElementFaderNode(
+class SharedElementWithMovableContentExampleNode(
     buildContext: BuildContext,
     private val backStack: BackStack<NavTarget> = BackStack(
         savedStateMap = buildContext.savedStateMap,
         initialElement = NavTarget.HorizontalList(0)
     )
-) : ParentNode<SharedElementFaderNode.NavTarget>(
+) : ParentNode<SharedElementWithMovableContentExampleNode.NavTarget>(
     navModel = backStack,
     buildContext = buildContext,
 ) {
-
 
     sealed class NavTarget : Parcelable {
         @Parcelize
@@ -50,7 +62,7 @@ class SharedElementFaderNode(
 
             is NavTarget.VerticalList -> ProfileVerticalListNode(
                 onProfileClick = { id ->
-                    backStack.replace(NavTarget.HorizontalList(id))
+                    backStack.push(NavTarget.HorizontalList(id))
                 },
                 profileId = navTarget.profileId,
                 buildContext = buildContext
@@ -75,4 +87,29 @@ class SharedElementFaderNode(
             transitionHandler = rememberBackstackFader(transitionSpec = { tween(300) })
         )
     }
+}
+
+@Composable
+fun ProfileImageWithCounterMovableContent(pageId: Int) {
+    localMovableContentWithTargetVisibility(key = pageId) {
+        var counter by remember(pageId) { mutableIntStateOf(Random.nextInt(0, 100)) }
+
+        LaunchedEffect(Unit) {
+            while (true) {
+                delay(1000)
+                counter++
+            }
+        }
+        Box(modifier = Modifier) {
+            ProfileImage(
+                allProfiles[pageId].drawableRes, modifier = Modifier
+            )
+            Text(
+                text = "$counter",
+                modifier = Modifier.align(Alignment.Center),
+                color = Color.White
+            )
+
+        }
+    }?.invoke()
 }

@@ -3,6 +3,7 @@ package com.bumble.appyx.sandbox.client.sharedelement
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +24,6 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.navigation.transition.sharedElement
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.samples.common.profile.Profile
-import com.bumble.appyx.samples.common.profile.ProfileImage
 
 class ProfileVerticalListNode(
     private val profileId: Int,
@@ -50,12 +50,14 @@ class ProfileVerticalListNode(
                             }
                     ) {
                         val profile = Profile.allProfiles[pageId]
-                        ProfileImage(
-                            profile.drawableRes, modifier = Modifier
+                        Box(
+                            modifier = Modifier
                                 .requiredSize(64.dp)
                                 .sharedElement(key = "$pageId image")
                                 .clip(CircleShape)
-                        )
+                        ) {
+                            ProfileImageWithCounterMovableContent(pageId)
+                        }
                         Text(
                             text = "${profile.name}, ${profile.age}",
                             color = Color.Black,

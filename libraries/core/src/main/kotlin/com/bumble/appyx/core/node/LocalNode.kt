@@ -2,6 +2,7 @@ package com.bumble.appyx.core.node
 
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
 val LocalNode = compositionLocalOf<Node?> { null }
@@ -16,3 +17,6 @@ val LocalSharedElementScope = compositionLocalOf<SharedTransitionScope?> { null 
  * return false.
  */
 val LocalNodeTargetVisibility = compositionLocalOf { false }
+
+val LocalParentNodeMovableContent =
+    compositionLocalOf<MutableMap<Any, @Composable () -> Unit>> { mutableMapOf() }

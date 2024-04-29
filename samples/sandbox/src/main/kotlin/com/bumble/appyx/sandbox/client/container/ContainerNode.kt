@@ -48,7 +48,7 @@ import com.bumble.appyx.sandbox.client.list.LazyListContainerNode
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleBuilder
 import com.bumble.appyx.sandbox.client.mvicoreexample.leaf.MviCoreLeafBuilder
 import com.bumble.appyx.sandbox.client.navmodels.NavModelExamplesNode
-import com.bumble.appyx.sandbox.client.sharedelement.SharedElementFaderNode
+import com.bumble.appyx.sandbox.client.sharedelement.SharedElementWithMovableContentExampleNode
 import com.bumble.appyx.utils.customisations.NodeCustomisation
 import kotlinx.parcelize.Parcelize
 
@@ -101,7 +101,7 @@ class ContainerNode internal constructor(
         when (navTarget) {
             is Picker -> node(buildContext) { modifier -> ExamplesList(modifier) }
             is NavModelExamples -> NavModelExamplesNode(buildContext)
-            is SharedElementFaderExample -> SharedElementFaderNode(buildContext)
+            is SharedElementFaderExample -> SharedElementWithMovableContentExampleNode(buildContext)
             is LazyExamples -> LazyListContainerNode(buildContext)
             is IntegrationPointExample -> IntegrationPointExampleNode(buildContext)
             is BlockerExample -> BlockerExampleNode(buildContext)

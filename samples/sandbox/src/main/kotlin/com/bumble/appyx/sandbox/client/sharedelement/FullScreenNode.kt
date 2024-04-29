@@ -17,7 +17,6 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.navigation.transition.sharedElement
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.samples.common.profile.Profile
-import com.bumble.appyx.samples.common.profile.ProfileImage
 
 class FullScreenNode(
     private val onClick: (Int) -> Unit,
@@ -36,11 +35,15 @@ class FullScreenNode(
                 }
         ) {
             val profile = Profile.allProfiles[profileId]
-            ProfileImage(
-                profile.drawableRes, modifier = Modifier
+
+
+            Box(
+                modifier = Modifier
                     .fillMaxSize()
                     .sharedElement(key = "$profileId image")
-            )
+            ) {
+                ProfileImageWithCounterMovableContent(profileId)
+            }
 
             Text(
                 text = "${profile.name}, ${profile.age}",

@@ -12,8 +12,7 @@ Below you can find the different options how to visualise `NavModel` state chang
 
 ## No transitions
 
-Using the provided [Child-related composables](children-view.md) you'll see no transitions as a default – UI changes resulting from the NavModel's state update will be rendered instantly. 
-
+Using the provided [Child-related composables](children-view.md) you'll see no transitions as a default – UI changes resulting from the NavModel's state update will be rendered instantly.
 
 ## Jetpack Compose default animations
 

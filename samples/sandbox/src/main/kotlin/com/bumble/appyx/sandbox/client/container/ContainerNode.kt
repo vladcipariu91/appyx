@@ -143,7 +143,7 @@ class ContainerNode internal constructor(
                 label?.let {
                     Text(it, textAlign = TextAlign.Center)
                 }
-                TextButton("Shared Element Fader") { backStack.push(SharedElementFaderExample) }
+                TextButton("Shared element with movable content") { backStack.push(SharedElementFaderExample) }
                 TextButton("NavModel Examples") { backStack.push(NavModelExamples) }
                 TextButton("Customisations Example") { backStack.push(Customisations) }
                 TextButton("Explicit navigation example") {

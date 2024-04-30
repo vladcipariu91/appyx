@@ -2,7 +2,7 @@
 
 ## Pending changes
 
-- [#701](https://github.com/bumble-tech/appyx/pull/701) – **Added**: Shared element transition support
+- [#701](https://github.com/bumble-tech/appyx/pull/701) – **Added**: Shared element transition and movable content support
 
 ---
 

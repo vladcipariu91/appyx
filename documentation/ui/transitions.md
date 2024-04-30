@@ -39,6 +39,7 @@ class NodeOne(
    override fun View(modifier: Modifier) {
       Box(
          modifier = Modifier
+            // make sure you specify the size before using sharedElement modifier
             .fillMaxSize()
             .sharedElement(key = "sharedContainer")
       ) { /** ... */ }
@@ -54,6 +55,7 @@ class NodeOne(
    override fun View(modifier: Modifier) {
       Box(
          modifier = Modifier
+             // make sure you specify the size before using sharedElement modifier
             .requiredSize(64.dp)
             .sharedElement(key = "sharedContainer")
       ) { /** ... */ }

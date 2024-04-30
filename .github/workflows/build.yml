@@ -119,6 +119,7 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
+            adb uninstall "com.bumble.appyx.core.test"
             adb logcat > logcat.out &
             ./gradlew connectedCheck
       - name: Upload failed instrumentation artifacts

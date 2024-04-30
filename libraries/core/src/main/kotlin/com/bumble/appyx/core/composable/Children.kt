@@ -6,6 +6,7 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -38,7 +39,7 @@ import kotlin.reflect.KClass
 inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
     navModel: NavModel<NavTarget, State>,
     modifier: Modifier = Modifier,
-    transitionHandler: TransitionHandler<NavTarget, State> = JumpToEndTransitionHandler(),
+    transitionHandler: TransitionHandler<NavTarget, State> = remember { JumpToEndTransitionHandler() },
     withSharedElementTransition: Boolean = false,
     noinline block: @Composable ChildrenTransitionScope<NavTarget, State>.() -> Unit = {
         children<NavTarget> { child ->
@@ -100,6 +101,7 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
     }
 }
 
+@Immutable
 class ChildrenTransitionScope<T : Any, S>(
     private val transitionHandler: TransitionHandler<T, S>,
     private val transitionParams: TransitionParams,

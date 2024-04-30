@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumble.appyx.core.modality.BuildContext
@@ -60,7 +60,7 @@ class ProfileVerticalListNode(
                         }
                         Text(
                             text = "${profile.name}, ${profile.age}",
-                            color = Color.Black,
+                            color = LocalContentColor.current,
                             fontSize = 32.sp,
                             modifier = Modifier
                                 .fillMaxWidth()

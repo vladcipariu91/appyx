@@ -1,4 +1,4 @@
-package com.bumble.appyx.sample.navigtion.compose
+package com.bumble.appyx.sample.navigation.compose
 
 import androidx.annotation.CheckResult
 import androidx.compose.runtime.CompositionLocalProvider
@@ -6,7 +6,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.bumble.appyx.core.integrationpoint.LocalIntegrationPoint
-import com.bumble.appyx.sample.navigation.compose.ComposeNavigationRoot
 import com.bumble.appyx.testing.ui.rules.AppyxTestActivity
 import org.junit.Rule
 import org.junit.Test

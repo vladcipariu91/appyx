@@ -121,7 +121,6 @@ jobs:
           script: |
             adb uninstall "com.bumble.appyx.core.test"
             adb uninstall "com.bumble.appyx.interop.ribs.test"
-            adb uninstall "com.bumble.appyx.sample.navigation.compose.test"
             adb logcat > logcat.out &
             ./gradlew connectedCheck
       - name: Upload failed instrumentation artifacts

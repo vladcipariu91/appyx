@@ -19,7 +19,7 @@ Using the provided [Child-related composables](children-view.md) you'll see no t
 
 To support shared element transition between two Child Nodes you need:
 
-1. Use sharedElementModifier with the same key on the composable you want to connect.
+1. Use the `sharedElement` Modifier with the same key on the composable you want to connect.
 2. On the `Children` composable, set `withSharedElementTransition` to true and use either fader or
    no transition handler at all. Using a slider will make the shared element slide away with the
    rest of of the content.

@@ -24,14 +24,15 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.navigation.transition.sharedElement
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.samples.common.profile.Profile
+import com.bumble.appyx.samples.common.profile.ProfileImage
 
 class ProfileVerticalListNode(
     private val profileId: Int,
     private val onProfileClick: (Int) -> Unit,
+    private val hasMovableContent: Boolean,
     buildContext: BuildContext
 ) : Node(buildContext) {
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     override fun View(modifier: Modifier) {
         val state = rememberLazyListState(initialFirstVisibleItemIndex = profileId)
@@ -41,35 +42,81 @@ class ProfileVerticalListNode(
             contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
-            repeat(10) { pageId ->
-                item(key = pageId) {
-                    Row(
-                        modifier = Modifier
-                            .clickable {
-                                onProfileClick(pageId)
-                            }
-                    ) {
-                        val profile = Profile.allProfiles[pageId]
-                        Box(
-                            modifier = Modifier
-                                .requiredSize(64.dp)
-                                .sharedElement(key = "$pageId image")
-                                .clip(CircleShape)
-                        ) {
-                            ProfileImageWithCounterMovableContent(pageId)
-                        }
-                        Text(
-                            text = "${profile.name}, ${profile.age}",
-                            color = LocalContentColor.current,
-                            fontSize = 32.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .sharedElement(key = "$pageId text")
-                                .padding(8.dp)
-                        )
+            repeat(10) { profileId ->
+                item(key = profileId) {
+                    if (hasMovableContent) {
+                        SharedElementWithMovableContentContent(profileId)
+                    } else {
+                        SharedElementContent(profileId)
                     }
                 }
             }
+        }
+    }
+
+
+    @OptIn(ExperimentalSharedTransitionApi::class)
+    @Composable
+    private fun SharedElementContent(
+        profileId: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Row(
+            modifier = modifier
+                .clickable {
+                    onProfileClick(profileId)
+                }
+        ) {
+            val profile = Profile.allProfiles[profileId]
+
+            ProfileImage(
+                Profile.allProfiles[profileId].drawableRes, modifier = Modifier
+                    .requiredSize(64.dp)
+                    .sharedElement(key = "$profileId image")
+                    .clip(CircleShape)
+            )
+            Text(
+                text = "${profile.name}, ${profile.age}",
+                color = LocalContentColor.current,
+                fontSize = 32.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .sharedElement(key = "$profileId text")
+                    .padding(8.dp)
+            )
+        }
+    }
+
+    @OptIn(ExperimentalSharedTransitionApi::class)
+    @Composable
+    private fun SharedElementWithMovableContentContent(
+        profileId: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Row(
+            modifier = modifier
+                .clickable {
+                    onProfileClick(profileId)
+                }
+        ) {
+            val profile = Profile.allProfiles[profileId]
+            Box(
+                modifier = Modifier
+                    .requiredSize(64.dp)
+                    .sharedElement(key = "$profileId image")
+                    .clip(CircleShape)
+            ) {
+                ProfileImageWithCounterMovableContent(profileId)
+            }
+            Text(
+                text = "${profile.name}, ${profile.age}",
+                color = LocalContentColor.current,
+                fontSize = 32.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .sharedElement(key = "$profileId text")
+                    .padding(8.dp)
+            )
         }
     }
 }

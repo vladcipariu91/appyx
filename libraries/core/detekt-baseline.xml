@@ -2,8 +2,8 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
+    <ID>CompositionLocalAllowlist:LocalNode.kt$LocalMovableContentMap</ID>
     <ID>CompositionLocalAllowlist:LocalNode.kt$LocalNodeTargetVisibility</ID>
-    <ID>CompositionLocalAllowlist:LocalNode.kt$LocalParentNodeMovableContent</ID>
     <ID>CompositionLocalAllowlist:LocalNode.kt$LocalSharedElementScope</ID>
   </CurrentIssues>
 </SmellBaseline>

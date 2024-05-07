@@ -28,13 +28,14 @@ import kotlinx.coroutines.delay
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
-class SharedElementWithMovableContentExampleNode(
+class SharedElementExampleNode(
     buildContext: BuildContext,
+    private val hasMovableContent : Boolean = false,
     private val backStack: BackStack<NavTarget> = BackStack(
         savedStateMap = buildContext.savedStateMap,
         initialElement = NavTarget.HorizontalList(0)
     )
-) : ParentNode<SharedElementWithMovableContentExampleNode.NavTarget>(
+) : ParentNode<SharedElementExampleNode.NavTarget>(
     navModel = backStack,
     buildContext = buildContext,
 ) {
@@ -57,7 +58,8 @@ class SharedElementWithMovableContentExampleNode(
                     backStack.push(NavTarget.FullScreen(id))
                 },
                 selectedId = navTarget.profileId,
-                buildContext = buildContext
+                buildContext = buildContext,
+                hasMovableContent = hasMovableContent
             )
 
             is NavTarget.VerticalList -> ProfileVerticalListNode(
@@ -65,7 +67,8 @@ class SharedElementWithMovableContentExampleNode(
                     backStack.push(NavTarget.HorizontalList(id))
                 },
                 profileId = navTarget.profileId,
-                buildContext = buildContext
+                buildContext = buildContext,
+                hasMovableContent = hasMovableContent
             )
 
             is NavTarget.FullScreen -> FullScreenNode(
@@ -73,7 +76,8 @@ class SharedElementWithMovableContentExampleNode(
                     backStack.push(NavTarget.VerticalList(id))
                 },
                 profileId = navTarget.profileId,
-                buildContext = buildContext
+                buildContext = buildContext,
+                hasMovableContent = hasMovableContent
             )
         }
     }
@@ -84,6 +88,7 @@ class SharedElementWithMovableContentExampleNode(
         Children(
             navModel = backStack,
             withSharedElementTransition = true,
+            withMovableContent = hasMovableContent,
             transitionHandler = rememberBackstackFader(transitionSpec = { tween(300) })
         )
     }

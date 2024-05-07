@@ -2,8 +2,6 @@ package com.bumble.appyx.core.node
 
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
@@ -74,15 +72,6 @@ abstract class ParentNode<NavTarget : Any>(
         childNodeCreationManager.launch(this)
         childNodeLifecycleManager.launch()
         manageTransitions()
-    }
-
-    @Composable
-    final override fun DerivedSetup(innerContent: @Composable () -> Unit) {
-        CompositionLocalProvider(
-            LocalParentNodeMovableContent provides mutableMapOf()
-        ) {
-            innerContent()
-        }
     }
 
     fun childOrCreate(navKey: NavKey<NavTarget>): ChildEntry.Initialized<NavTarget> =

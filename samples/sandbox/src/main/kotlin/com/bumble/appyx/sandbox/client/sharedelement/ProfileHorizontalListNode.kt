@@ -22,14 +22,15 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.navigation.transition.sharedElement
 import com.bumble.appyx.core.node.Node
 import com.bumble.appyx.samples.common.profile.Profile
+import com.bumble.appyx.samples.common.profile.ProfileImage
 
 class ProfileHorizontalListNode(
     private val selectedId: Int,
     private val onProfileClick: (Int) -> Unit,
+    private val hasMovableContent: Boolean,
     buildContext: BuildContext
 ) : Node(buildContext) {
 
-    @OptIn(ExperimentalSharedTransitionApi::class)
     @Composable
     override fun View(modifier: Modifier) {
         val state = rememberLazyListState(initialFirstVisibleItemIndex = selectedId)
@@ -42,34 +43,80 @@ class ProfileHorizontalListNode(
         ) {
             repeat(10) { profileId ->
                 item(key = profileId) {
-                    Box(
-                        modifier = Modifier
-                            .requiredSize(200.dp)
-                            .clickable {
-                                onProfileClick(profileId)
-                            }
-                    ) {
-                        val profile = Profile.allProfiles[profileId]
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .sharedElement(key = "$profileId image")
-                        ) {
-                            ProfileImageWithCounterMovableContent(profileId)
-                        }
-                        Text(
-                            text = "${profile.name}, ${profile.age}",
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .sharedElement(key = "$profileId text")
-                                .align(Alignment.BottomStart)
-                                .padding(8.dp)
-                        )
+                    if (hasMovableContent) {
+                        SharedElementWithMovableContentContent(profileId)
+                    } else {
+                        SharedElementContent(profileId)
                     }
                 }
             }
+        }
+    }
+
+    @OptIn(ExperimentalSharedTransitionApi::class)
+    @Composable
+    private fun SharedElementContent(
+        profileId: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Box(
+            modifier = modifier
+                .requiredSize(200.dp)
+                .clickable {
+                    onProfileClick(profileId)
+                }
+        ) {
+            val profile = Profile.allProfiles[profileId]
+
+            ProfileImage(
+                Profile.allProfiles[profileId].drawableRes, modifier = Modifier
+                    .fillMaxSize()
+                    .sharedElement(key = "$profileId image")
+            )
+            Text(
+                text = "${profile.name}, ${profile.age}",
+                color = Color.White,
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .sharedElement(key = "$profileId text")
+                    .align(Alignment.BottomStart)
+                    .padding(8.dp)
+            )
+        }
+    }
+
+    @OptIn(ExperimentalSharedTransitionApi::class)
+    @Composable
+    private fun SharedElementWithMovableContentContent(
+        profileId: Int,
+        modifier: Modifier = Modifier
+    ) {
+        Box(
+            modifier = modifier
+                .requiredSize(200.dp)
+                .clickable {
+                    onProfileClick(profileId)
+                }
+        ) {
+            val profile = Profile.allProfiles[profileId]
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .sharedElement(key = "$profileId image")
+            ) {
+                ProfileImageWithCounterMovableContent(profileId)
+            }
+            Text(
+                text = "${profile.name}, ${profile.age}",
+                color = Color.White,
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .sharedElement(key = "$profileId text")
+                    .align(Alignment.BottomStart)
+                    .padding(8.dp)
+            )
         }
     }
 }

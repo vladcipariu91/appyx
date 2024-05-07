@@ -28,6 +28,7 @@ import com.bumble.appyx.core.navigation.transition.TransitionBounds
 import com.bumble.appyx.core.navigation.transition.TransitionDescriptor
 import com.bumble.appyx.core.navigation.transition.TransitionHandler
 import com.bumble.appyx.core.navigation.transition.TransitionParams
+import com.bumble.appyx.core.node.LocalMovableContentMap
 import com.bumble.appyx.core.node.LocalNodeTargetVisibility
 import com.bumble.appyx.core.node.LocalSharedElementScope
 import com.bumble.appyx.core.node.ParentNode
@@ -41,6 +42,7 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
     modifier: Modifier = Modifier,
     transitionHandler: TransitionHandler<NavTarget, State> = remember { JumpToEndTransitionHandler() },
     withSharedElementTransition: Boolean = false,
+    withMovableContent: Boolean = false,
     noinline block: @Composable ChildrenTransitionScope<NavTarget, State>.() -> Unit = {
         children<NavTarget> { child ->
             child()
@@ -67,7 +69,8 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
         ) {
             CompositionLocalProvider(
                 /** LocalSharedElementScope will be consumed by children UI to apply shareElement modifier */
-                LocalSharedElementScope provides this
+                LocalSharedElementScope provides this,
+                LocalMovableContentMap provides if (withMovableContent) mutableMapOf() else null
             ) {
                 block(
                     ChildrenTransitionScope(
@@ -87,7 +90,8 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
             CompositionLocalProvider(
                 /** If sharedElement is not supported for this Node - provide null otherwise children
                  * can consume ascendant's LocalSharedElementScope */
-                LocalSharedElementScope provides null
+                LocalSharedElementScope provides null,
+                LocalMovableContentMap provides if (withMovableContent) mutableMapOf() else null
             ) {
                 block(
                     ChildrenTransitionScope(

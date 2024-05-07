@@ -39,7 +39,8 @@ import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.MviCore
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.MviCoreLeafExample
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.NavModelExamples
 import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.Picker
-import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.SharedElementFaderExample
+import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.SharedElementExample
+import com.bumble.appyx.sandbox.client.container.ContainerNode.NavTarget.SharedElementWithMovableContentExample
 import com.bumble.appyx.sandbox.client.customisations.CustomisationsNode
 import com.bumble.appyx.sandbox.client.explicitnavigation.ExplicitNavigationExampleActivity
 import com.bumble.appyx.sandbox.client.integrationpoint.IntegrationPointExampleNode
@@ -48,7 +49,7 @@ import com.bumble.appyx.sandbox.client.list.LazyListContainerNode
 import com.bumble.appyx.sandbox.client.mvicoreexample.MviCoreExampleBuilder
 import com.bumble.appyx.sandbox.client.mvicoreexample.leaf.MviCoreLeafBuilder
 import com.bumble.appyx.sandbox.client.navmodels.NavModelExamplesNode
-import com.bumble.appyx.sandbox.client.sharedelement.SharedElementWithMovableContentExampleNode
+import com.bumble.appyx.sandbox.client.sharedelement.SharedElementExampleNode
 import com.bumble.appyx.utils.customisations.NodeCustomisation
 import kotlinx.parcelize.Parcelize
 
@@ -75,7 +76,10 @@ class ContainerNode internal constructor(
         object LazyExamples : NavTarget()
 
         @Parcelize
-        object SharedElementFaderExample : NavTarget()
+        object SharedElementExample : NavTarget()
+
+        @Parcelize
+        object SharedElementWithMovableContentExample : NavTarget()
 
         @Parcelize
         object IntegrationPointExample : NavTarget()
@@ -101,12 +105,21 @@ class ContainerNode internal constructor(
         when (navTarget) {
             is Picker -> node(buildContext) { modifier -> ExamplesList(modifier) }
             is NavModelExamples -> NavModelExamplesNode(buildContext)
-            is SharedElementFaderExample -> SharedElementWithMovableContentExampleNode(buildContext)
+            is SharedElementExample -> SharedElementExampleNode(buildContext)
+            is SharedElementWithMovableContentExample -> SharedElementExampleNode(
+                buildContext,
+                hasMovableContent = true
+            )
+
             is LazyExamples -> LazyListContainerNode(buildContext)
             is IntegrationPointExample -> IntegrationPointExampleNode(buildContext)
             is BlockerExample -> BlockerExampleNode(buildContext)
             is Customisations -> CustomisationsNode(buildContext)
-            is MviCoreExample -> MviCoreExampleBuilder().build(buildContext, "MVICore initial state")
+            is MviCoreExample -> MviCoreExampleBuilder().build(
+                buildContext,
+                "MVICore initial state"
+            )
+
             is MviCoreLeafExample -> MviCoreLeafBuilder().build(
                 buildContext,
                 "MVICore leaf initial state"
@@ -143,7 +156,12 @@ class ContainerNode internal constructor(
                 label?.let {
                     Text(it, textAlign = TextAlign.Center)
                 }
-                TextButton("Shared element with movable content") { backStack.push(SharedElementFaderExample) }
+                TextButton("Shared element ") { backStack.push(SharedElementExample) }
+                TextButton("Shared element with movable content") {
+                    backStack.push(
+                        SharedElementWithMovableContentExample
+                    )
+                }
                 TextButton("NavModel Examples") { backStack.push(NavModelExamples) }
                 TextButton("Customisations Example") { backStack.push(Customisations) }
                 TextButton("Explicit navigation example") {

@@ -45,7 +45,8 @@ class NodeOne(
       ) { /** ... */ }
    }
 }
-class NodeOne(
+
+class NodeTwo(
    buildContext: BuildContext
 ) : Node(
    buildContext = buildContext

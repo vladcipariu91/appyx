@@ -87,7 +87,8 @@ class ParentNode(
          navModel = backStack,
          // or no transitionHandler at all. Using a slider will make the shared element slide away
          // with the rest of of the content.
-         transitionHandler = rememberBackStackFader()
+         transitionHandler = rememberBackStackFader(),
+         withSharedElementTransition = true
       )
    }
 }

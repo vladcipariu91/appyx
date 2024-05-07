@@ -86,7 +86,7 @@ inline fun <reified NavTarget : Any, State> ParentNode<NavTarget>.Children(
         ) {
             CompositionLocalProvider(
                 /** If sharedElement is not supported for this Node - provide null otherwise children
-                 * can consume ascendant's  LocalSharedElementScope */
+                 * can consume ascendant's LocalSharedElementScope */
                 LocalSharedElementScope provides null
             ) {
                 block(

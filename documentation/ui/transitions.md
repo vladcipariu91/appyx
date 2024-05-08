@@ -104,7 +104,8 @@ composed once design and is moved from one part of the composition to another.
 
 To move content between two Child Nodes you need to use `localMovableContentWithTargetVisibility`
 composable function with the correct key to retrieve existing content if it exists or put content
-for this key if it doesn't exist. 
+for this key if it doesn't exist. In addition to that, on Parent's `Children` composable you need to
+set `withMovableContent` to true.
 
 In the example below when a NodeOne is being replaced with NodeTwo in a BackStack or Spotlight NavModel
 `CustomMovableContent("movableContentKey")` will be moved from NodeOne to NodeTwo without losing its
@@ -137,6 +138,15 @@ override fun View(modifier: Modifier) {
 @Composable
 override fun View(modifier: Modifier) {
    CustomMovableContent("movableContentKey")
+}
+
+// ParentNode
+@Composable
+override fun View(modifier: Modifier) {
+   Children(
+      navModel = backStack,
+      withMovableContent = true,
+   )
 }
 
 ```

@@ -2,6 +2,8 @@
 
 ## Pending changes
 
+- [#705](https://github.com/bumble-tech/appyx/pull/705) – **Fixed**: ChildAware extension functions now allow Any type as a parameter
+
 ---
 
 ## 1.5.0

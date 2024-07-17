@@ -1,10 +1,9 @@
-name: Build
+name: Build_1.x
 
 on:
   push:
     branches:
       - 1.x
-      - 2.x
   pull_request:
   workflow_dispatch:
 
@@ -130,14 +129,3 @@ jobs:
           path: |
             **/build/reports
             logcat.out
-
-  check-documentation:
-    name: Check documentation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-      - run: pip install mkdocs-material
-      - run: mkdocs build --strict

@@ -1,0 +1,31 @@
+name: Deploy mkdocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - documentation
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - run: pip install mkdocs-material
+      - run: pip install mkdocs-macros-plugin
+      - run: pip install mkdocs-redirects
+      - run: pip install mkdocs-include-markdown-plugin
+      - run: pip install pillow cairosvg
+      - run: mkdocs gh-deploy --force

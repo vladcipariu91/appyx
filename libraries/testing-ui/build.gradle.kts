@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.JvmTarget
 
 plugins {
     id("com.android.library")
+    alias(libs.plugins.compose.compiler)
     id("kotlin-android")
     id("appyx-publish-android")
     id("appyx-lint")
@@ -20,9 +21,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

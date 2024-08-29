@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.JvmTarget
 
 plugins {
     id("com.android.library")
+    alias(libs.plugins.compose.compiler)
     id("kotlin-android")
     id("kotlin-parcelize")
     id("appyx-publish-android")
@@ -30,9 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = JvmTarget.JVM_11.toString()
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
     testOptions {
         unitTests.all {
             // interface method default implementation
@@ -52,6 +50,7 @@ dependencies {
     api(libs.androidx.appcompat)
     api(libs.kotlin.coroutines.android)
 
+    debugImplementation(libs.androidx.tracing) // Espresso fails without this
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.java8)

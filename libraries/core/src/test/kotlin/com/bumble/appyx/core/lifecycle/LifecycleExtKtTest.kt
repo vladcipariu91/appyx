@@ -4,7 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +19,7 @@ class LifecycleExtKtTest {
     @Test
     fun `asFlow follows lifecycle`() {
         val lifecycle = TestLifecycle()
-        runBlockingTest {
+        runTest(UnconfinedTestDispatcher()) {
             val events = ArrayList<Lifecycle.State>()
             val task = launch { lifecycle.asFlow().collect { events += it } }
 

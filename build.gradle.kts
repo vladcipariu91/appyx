@@ -1,4 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
     repositories {
@@ -17,6 +20,7 @@ plugins {
     id("com.autonomousapps.dependency-analysis") version libs.versions.dependencyAnalysis.get()
     id("release-dependencies-diff-compare")
     id("release-dependencies-diff-create") apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 dependencyAnalysis {
@@ -83,6 +87,15 @@ dependencyAnalysis {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+// TODO: Enable K2 in a later PR
+tasks.withType(KotlinJvmCompile::class.java).configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+        apiVersion.set(KotlinVersion.KOTLIN_1_9)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
+    }
 }
 
 allprojects {

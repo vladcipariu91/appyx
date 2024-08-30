@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.JvmTarget
 
 plugins {
     id("com.android.application")
+    alias(libs.plugins.compose.compiler)
     id("kotlin-android")
     id("kotlin-parcelize")
     id("appyx-lint")
@@ -32,9 +33,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packagingOptions {
         resources {

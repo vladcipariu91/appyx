@@ -49,7 +49,8 @@ internal class ChildNodeCreationManager<NavTarget : Any>(
                 when (keepMode) {
                     ChildEntry.KeepMode.KEEP -> {
                         navModelKeepKeys =
-                            (state.onScreen + state.offScreen).mapNotNullToSet { element -> element.key }
+                            state.onScreen.mapNotNullToSet { element -> element.key } +
+                                    state.offScreen.mapNotNullToSet { element -> element.key }
                         navModelSuspendKeys = emptySet()
                         navModelKeys = navModelKeepKeys
                     }

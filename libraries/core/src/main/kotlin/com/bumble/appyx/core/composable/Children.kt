@@ -91,12 +91,10 @@ class ChildrenTransitionScope<T : Any, S>(
     @Composable
     fun ParentNode<T>.children(
         clazz: KClass<out T>,
-        block: @Composable ChildTransitionScope<S>.(child: ChildRenderer) -> Unit,
+        block: @Composable ChildTransitionScope<S>.(ChildRenderer) -> Unit,
     ) {
         _children(clazz) { scope, child, _ ->
-            scope.block(
-                child = child
-            )
+            scope.block(child)
         }
     }
 
@@ -104,14 +102,14 @@ class ChildrenTransitionScope<T : Any, S>(
     fun ParentNode<T>.children(
         clazz: KClass<out T>,
         block: @Composable ChildTransitionScope<S>.(
-            child: ChildRenderer,
-            transitionDescriptor: TransitionDescriptor<T, S>
+            ChildRenderer,
+            TransitionDescriptor<T, S>
         ) -> Unit,
     ) {
         _children(clazz) { scope, child, descriptor ->
             scope.block(
-                transitionDescriptor = descriptor,
-                child = child,
+                child,
+                descriptor,
             )
         }
     }

@@ -17,7 +17,7 @@ class LintPlugin : Plugin<Project> {
     }
 
     private fun collectLintSarif(target: Project) {
-        target.extensions.configure<CommonExtension<*, *, *, *, *>>("android") {
+        target.extensions.configure<CommonExtension<*, *, *, *, *, *>>("android") {
             lint {
                 sarifReport = true
                 baseline = target.file("lint-baseline.xml")

@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.JvmTarget
 
 plugins {
     id("com.android.application")
+    alias(libs.plugins.compose.compiler)
     id("kotlin-android")
     id("kotlin-parcelize")
     id("appyx-lint")
@@ -49,10 +50,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -79,9 +76,4 @@ dependencies {
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.ui)
     implementation(libs.google.material)
-
-    androidTestImplementation(composeBom)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.compose.ui.test.junit4)
 }

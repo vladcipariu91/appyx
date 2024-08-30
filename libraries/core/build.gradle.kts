@@ -50,7 +50,6 @@ dependencies {
     api(libs.androidx.appcompat)
     api(libs.kotlin.coroutines.android)
 
-    debugImplementation(libs.androidx.tracing) // Espresso fails without this
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.java8)

@@ -1,3 +1,4 @@
+import com.android.Version
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -100,10 +101,19 @@ tasks.withType(KotlinJvmCompile::class.java).configureEach {
 
 allprojects {
     configurations.all {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("com.bumble.appyx:customisations"))
-                .using(project(":libraries:customisations"))
-                .because("RIBs uses Appyx customisations as external dependency")
+        resolutionStrategy {
+            failOnNonReproducibleResolution()
+            dependencySubstitution {
+                substitute(module("com.bumble.appyx:customisations"))
+                    .using(project(":libraries:customisations"))
+                    .because("RIBs uses Appyx customisations as external dependency")
+            }
+            eachDependency {
+                when (requested.group) {
+                    // Version 1.0 and 1.1 are included which cause ':libraries:core' espresso tests to fail
+                    "androidx.tracing" -> useVersion(libs.versions.androidx.tracing.get())
+                }
+            }
         }
     }
 }

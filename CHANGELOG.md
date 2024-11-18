@@ -2,9 +2,13 @@
 
 ## Pending changes
 
+## 1.5.1
+
 - [#705](https://github.com/bumble-tech/appyx/pull/705) – **Fixed**: ChildAware extension functions now allow Any type as a parameter
 - [#716](https://github.com/bumble-tech/appyx/pull/716) – **Updated**: Kotlin (2.0.20), Compose Compiler (now implicit from Kotlin), Coroutines (1.9.0-RC.2), AGP (8.5.2), numerous Androidx libs
 - [#718](https://github.com/bumble-tech/appyx/pull/718) – **Added**: Introduced global plugins for all nodes and added [GlobalNodeLifecycleAware] which is contains the node in the callback.
+
+<div style="text-align: center"><small>18 Nov 2024</small></div>
 
 ---
 

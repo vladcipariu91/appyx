@@ -27,6 +27,7 @@ import com.bumble.appyx.core.modality.AncestryInfo
 import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.plugin.BackPressHandler
 import com.bumble.appyx.core.plugin.Destroyable
+import com.bumble.appyx.core.plugin.GlobalNodeLifecycleAware
 import com.bumble.appyx.core.plugin.NodeLifecycleAware
 import com.bumble.appyx.core.plugin.NodeReadyObserver
 import com.bumble.appyx.core.plugin.Plugin
@@ -57,7 +58,7 @@ open class Node @VisibleForTesting internal constructor(
     @Suppress("LeakingThis") // Implemented in the same way as in androidx.Fragment
     private val nodeLifecycle = NodeLifecycleImpl(this)
 
-    val plugins: List<Plugin> = plugins + listOfNotNull(this as? Plugin)
+    val plugins: List<Plugin> = plugins + Appyx.globalPlugins + listOfNotNull(this as? Plugin)
 
     val ancestryInfo: AncestryInfo =
         buildContext.ancestryInfo
@@ -115,6 +116,7 @@ open class Node @VisibleForTesting internal constructor(
         updateLifecycleState(Lifecycle.State.CREATED)
         plugins<NodeReadyObserver<Node>>().forEach { it.init(this) }
         plugins<NodeLifecycleAware>().forEach { it.onCreate(lifecycle) }
+        plugins<GlobalNodeLifecycleAware>().forEach { it.onCreate(this, lifecycle) }
     }
 
     @Composable
@@ -179,6 +181,7 @@ open class Node @VisibleForTesting internal constructor(
                 retainedInstanceStore.clearStore(id)
             }
             plugins<Destroyable>().forEach { it.destroy() }
+            plugins<GlobalNodeLifecycleAware>().forEach { it.onDestroy(this) }
         }
     }
 

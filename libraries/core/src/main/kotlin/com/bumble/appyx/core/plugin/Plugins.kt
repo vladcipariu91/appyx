@@ -23,6 +23,11 @@ interface NodeLifecycleAware : Plugin {
     fun onCreate(lifecycle: Lifecycle) {}
 }
 
+interface GlobalNodeLifecycleAware : Plugin {
+    fun onCreate(node: Node, lifecycle: Lifecycle) {}
+    fun onDestroy(node: Node) {}
+}
+
 interface UpNavigationHandler : Plugin {
     fun handleUpNavigation(): Boolean = false
 }

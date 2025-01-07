@@ -2,6 +2,8 @@
 
 ## Pending changes
 
+- [#719](https://github.com/bumble-tech/appyx/pull/719) – **Updated**: Jetpack Compose to 1.7.6
+
 ## 1.5.1
 
 - [#705](https://github.com/bumble-tech/appyx/pull/705) – **Fixed**: ChildAware extension functions now allow Any type as a parameter

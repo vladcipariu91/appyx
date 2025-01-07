@@ -1,0 +1,163 @@
+name: Build_2.x
+
+on:
+  push:
+    branches:
+      - 2.x
+  pull_request:
+    branches:
+      - 2.x
+  workflow_dispatch:
+
+env:
+  MAIN_BRANCH: ${{ github.ref == 'refs/heads/1.x' || github.ref == 'refs/heads/2.x' }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - name: Build
+        run: >
+          ./gradlew
+          buildNonMkdocs
+          projectHealth
+          mergeLintSarif
+          mergeDetektSarif
+          :plugins:buildPlugins
+          --continue
+      - name: Deploy snapshot
+        if: env.MAIN_BRANCH == 'true' && github.repository == 'bumble-tech/appyx'
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: >
+          ./gradlew
+          publishAllPublicationsToSonatypeSnapshotRepository
+          -Psnapshot=true
+          --no-parallel
+          -Psigning.password=${{ secrets.SIGNING_PASSWORD }}
+          -Psonatype.username=${{ secrets.SONATYPE_USERNAME }}
+          -Psonatype.password=${{ secrets.SONATYPE_PASSWORD }}
+      - uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: build/lint-merged.sarif
+          category: lint
+      - uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: build/detekt-merged.sarif
+          category: detekt
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            !**/build/reports/dependency-analysis/
+
+  publication-verification:
+    name: Publication verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - name: Check publication setup
+        run: >
+          ./gradlew
+          publishAllPublicationsToOSSRHRepository
+          publishAllPublicationsToSonatypeSnapshotRepository
+          --dry-run
+          --no-parallel
+      - name: Publish locally
+        run: ./gradlew publishToMavenLocal -Psigning.required=false --no-parallel --continue
+
+  instrumentation-tests:
+    name: Instrumentation tests
+    runs-on: macOS-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Package Debug Android Test
+        # Flags from https://github.com/android/nowinandroid/blob/main/.github/workflows/Build.yaml
+        run: ./gradlew packageDebugAndroidTest
+      - name: Instrumentation tests
+        # Flags from https://github.com/android/nowinandroid/blob/main/.github/workflows/Build.yaml
+        run: >
+          adb logcat > logcat.out &
+          ./gradlew cleanManagedDevices --unused-only &&
+          ./gradlew uiTestsDeviceDebugAndroidTest
+          -Dorg.gradle.workers.max=1
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+          -Dorg.gradle.jvmargs=-Xmx2048m
+      - name: Upload failed instrumentation artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumentation-failures
+          path: |
+            **/build/reports
+            logcat.out
+
+  screenshot-tests:
+    name: Screenshot tests
+    runs-on: macOS-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Screenshot tests
+        # Flags from https://github.com/android/nowinandroid/blob/main/.github/workflows/Build.yaml
+        run: >
+          adb logcat > logcat.out &
+          ./gradlew cleanManagedDevices --unused-only &&
+          ./gradlew screenshotTestsCompareBaseline
+          -Dorg.gradle.workers.max=1
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+      - name: Upload failed screenshot artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-failures
+          path: |
+            **/build/reports
+            **/build/outputs/managed_device_android_test_additional_output
+            logcat.out

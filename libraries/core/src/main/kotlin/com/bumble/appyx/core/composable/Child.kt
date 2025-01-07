@@ -38,8 +38,8 @@ fun <NavTarget : Any, State> ParentNode<NavTarget>.Child(
     transitionParams: TransitionParams,
     transitionHandler: TransitionHandler<NavTarget, State>,
     decorator: @Composable ChildTransitionScope<State>.(
-        child: ChildRenderer,
-        transitionDescriptor: TransitionDescriptor<NavTarget, State>
+        ChildRenderer,
+        TransitionDescriptor<NavTarget, State>
     ) -> Unit
 ) {
     val childEntry = remember(navElement.key.id) { childOrCreate(navElement.key) }
@@ -55,11 +55,11 @@ fun <NavTarget : Any, State> ParentNode<NavTarget>.Child(
         )
 
         transitionScope.decorator(
-            child = ChildRendererImpl(
+            ChildRendererImpl(
                 node = childEntry.node,
                 transitionModifier = transitionScope.transitionModifier
             ),
-            transitionDescriptor = descriptor,
+            descriptor,
         )
     }
 }

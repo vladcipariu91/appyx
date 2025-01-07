@@ -1,0 +1,33 @@
+name: Check Documentation
+
+on:
+  pull_request:
+    branches:
+      - documentation
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-documentation:
+    name: Check documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: gradle/wrapper-validation-action@v2
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ env.MAIN_BRANCH != 'true' }}
+      - name: Generate distributions
+        run: ./gradlew wasmJsBrowserDistributionMkdocs --continue
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install mkdocs-material
+      - run: pip install mkdocs-macros-plugin
+      - run: pip install mkdocs-redirects
+      - run: pip install mkdocs-include-markdown-plugin
+      - run: pip install pillow cairosvg
+      - run: mkdocs build --strict

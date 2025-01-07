@@ -1,4 +1,8 @@
+import com.android.Version
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
     repositories {
@@ -17,6 +21,7 @@ plugins {
     id("com.autonomousapps.dependency-analysis") version libs.versions.dependencyAnalysis.get()
     id("release-dependencies-diff-compare")
     id("release-dependencies-diff-create") apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 dependencyAnalysis {
@@ -85,12 +90,30 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
+// TODO: Enable K2 in a later PR
+tasks.withType(KotlinJvmCompile::class.java).configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+        apiVersion.set(KotlinVersion.KOTLIN_1_9)
+        languageVersion.set(KotlinVersion.KOTLIN_1_9)
+    }
+}
+
 allprojects {
     configurations.all {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("com.bumble.appyx:customisations"))
-                .using(project(":libraries:customisations"))
-                .because("RIBs uses Appyx customisations as external dependency")
+        resolutionStrategy {
+            failOnNonReproducibleResolution()
+            dependencySubstitution {
+                substitute(module("com.bumble.appyx:customisations"))
+                    .using(project(":libraries:customisations"))
+                    .because("RIBs uses Appyx customisations as external dependency")
+            }
+            eachDependency {
+                when (requested.group) {
+                    // Version 1.0 and 1.1 are included which cause ':libraries:core' espresso tests to fail
+                    "androidx.tracing" -> useVersion(libs.versions.androidx.tracing.get())
+                }
+            }
         }
     }
 }

@@ -1,11 +1,12 @@
-name: Build
+name: Build_1.x
 
 on:
   push:
     branches:
       - 1.x
-      - 2.x
   pull_request:
+    branches:
+      - 1.x
   workflow_dispatch:
 
 env:
@@ -119,26 +120,14 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: |
-            adb uninstall "com.bumble.appyx.core.test"
-            adb uninstall "com.bumble.appyx.interop.ribs.test"
+            adb shell pm list packages -3 | cut -f 2 -d ":" | while read package; do if [ "$package" = "com.bumble.appyx.sample.navigation.compose.test" ] || [ "$package" = "com.bumble.appyx.core.test" ] || [ "$package" = "com.bumble.appyx.interop.ribs.test" ] || [ "$package" = "com.bumble.appyx.sample.navigtion.compose.test" ]; then adb uninstall $package; fi; done
             adb logcat > logcat.out &
             ./gradlew connectedCheck
       - name: Upload failed instrumentation artifacts
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: instrumentation-failures
           path: |
             **/build/reports
             logcat.out
-
-  check-documentation:
-    name: Check documentation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-      - run: pip install mkdocs-material
-      - run: mkdocs build --strict

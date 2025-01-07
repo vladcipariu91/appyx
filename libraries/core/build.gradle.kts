@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.JvmTarget
 
 plugins {
     id("com.android.library")
+    alias(libs.plugins.compose.compiler)
     id("kotlin-android")
     id("kotlin-parcelize")
     id("appyx-publish-android")
@@ -29,9 +30,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JvmTarget.JVM_11.toString()
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     testOptions {
         unitTests.all {
